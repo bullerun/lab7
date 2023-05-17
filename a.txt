@@ -1,0 +1,4 @@
+info
+show
+execute_script g.txt
+info

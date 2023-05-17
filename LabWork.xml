@@ -1,0 +1,12 @@
+<TreeSet>
+    <item>
+        <id>1</id>
+        <name>123</name>
+        <coordinates>
+            <X_coordinates>123.0</X_coordinates>
+            <Y_coordinates>123</Y_coordinates>
+        </coordinates>
+        <creationDate>2023-05-06</creationDate>
+        <minimalPoint>213</minimalPoint>
+    </item>
+</TreeSet>
