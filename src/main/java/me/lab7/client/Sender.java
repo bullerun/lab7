@@ -1,10 +1,7 @@
 package me.lab7.client;
 
+import me.lab7.common.*;
 import me.lab7.common.data.LabWork;
-import me.lab7.common.Encoder;
-import me.lab7.common.Request;
-import me.lab7.common.RequestWithCommands;
-import me.lab7.common.RequestWithLabWork;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,23 +18,30 @@ public class Sender {
     public Sender() {
     }
 
-    public void sendMessage(String[] command) throws IOException {
-        ByteBuffer buffer = Encoder.encode(new Request(command));
+    public void sendMessage(String[] command, Authentication client) throws IOException {
+        ByteBuffer buffer = Encoder.encode(new Request(command, client));
         buffer.flip();
         while (buffer.hasRemaining()) {
             socket.write(buffer);
         }
     }
 
-    public void sendMessageWithLabWork(LabWork labWork) throws IOException {
-        ByteBuffer buffer = Encoder.encode(new RequestWithLabWork("add", labWork));
+    public void sendMessageWithLabWork(LabWork labWork, Authentication client) throws IOException {
+        ByteBuffer buffer = Encoder.encode(new RequestWithLabWork("add", labWork, client));
         buffer.flip();
         while (buffer.hasRemaining()) {
             socket.write(buffer);
         }
     }
-    public void sendMessageWithCommands(ArrayList<String> commands) throws IOException {
-        ByteBuffer buffer = Encoder.encode(new RequestWithCommands(commands));
+    public void sendMessageWithCommands(ArrayList<String> commands, Authentication client) throws IOException {
+        ByteBuffer buffer = Encoder.encode(new RequestWithCommands(commands, client));
+        buffer.flip();
+        while (buffer.hasRemaining()) {
+            socket.write(buffer);
+        }
+    }
+    public void sendAuth(String command, Authentication client) throws IOException {
+        ByteBuffer buffer = Encoder.encode(new RequestWithClient(command, client));
         buffer.flip();
         while (buffer.hasRemaining()) {
             socket.write(buffer);

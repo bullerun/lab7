@@ -88,10 +88,7 @@ public class LabAsk {
 
                 coordinates.setY(Long.parseLong(scanner.nextLine().trim()));
                 break;
-            } catch (NumberFormatException e) {
-
-
-            }
+            } catch (NumberFormatException e) {}
         }
     }
 

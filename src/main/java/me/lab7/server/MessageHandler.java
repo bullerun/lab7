@@ -27,17 +27,14 @@ public class MessageHandler {
             if (payloadBuffer != null && payloadBufferPos >= payloadBuffer.length) {
                 return true;
             }
-
             int readBytes = socket.getInputStream().read(sizeInBuffer, sizeInBufferPos, Integer.BYTES - sizeInBufferPos);
             sizeInBufferPos += readBytes;
             if (sizeInBufferPos < Integer.BYTES) {
                 return false;
             }
-
             if (payloadBuffer == null) {
                 payloadBuffer = new byte[ByteBuffer.wrap(sizeInBuffer).getInt()];
             }
-
             readBytes = socket.getInputStream().read(payloadBuffer, payloadBufferPos, payloadBuffer.length - payloadBufferPos);
             payloadBufferPos += readBytes;
 

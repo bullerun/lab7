@@ -3,7 +3,6 @@ package me.lab7.server.manager;
 import me.lab7.common.data.LabWork;
 import me.lab7.common.Response;
 import me.lab7.server.command.*;
-import me.lab7.server.utility.FileHanding;
 import me.lab7.server.utility.LabAsk;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class CommandManager {
     private ExitCommand exitCommand;
     private LabAsk labAsk;
 
-    public CommandManager(CollectionManager collectionManager, FileHanding fileHanding, LabAsk labAsk) {
+    public CommandManager(CollectionManager collectionManager, LabAsk labAsk) {
         this.labAsk = labAsk;
         localScanner = new Scanner("");
         commandsForHelpCommand.add(new InfoCommand(collectionManager));
@@ -38,7 +37,7 @@ public class CommandManager {
         commandsForHelpCommand.add(new SumOfMinimalPointCommand(collectionManager));
         commandsForHelpCommand.add(new AverageOfMinimalPointCommand(collectionManager));
         commandsForHelpCommand.add(new ClearCommand(collectionManager));
-        commandsForHelpCommand.add(new ExecuteScriptCommand(fileHanding));
+        commandsForHelpCommand.add(new ExecuteScriptCommand());
         commandsForHelpCommand.add(new PrintFieldDescendingDisciplineCommand(collectionManager));
         commandsForHelpCommand.add(new RemoveGreaterCommand(collectionManager));
         commandsForHelpCommand.add(new RemoveLowerCommand(collectionManager));
@@ -57,9 +56,10 @@ public class CommandManager {
         commands.put("print_field_descending_discipline", new PrintFieldDescendingDisciplineCommand(collectionManager));
         commands.put("remove_greater", new RemoveGreaterCommand(collectionManager));
         commands.put("remove_lower", new RemoveLowerCommand(collectionManager));
-        saveCommand = new SaveCommand(fileHanding, collectionManager);
+        saveCommand = new SaveCommand(collectionManager);
         exitCommand = new ExitCommand();
     }
+
 
     public Response commandSelection(String[] command) {
         addCommandHistory(command[0]);

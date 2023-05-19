@@ -1,14 +1,13 @@
 package me.lab7.server;
 
+import me.lab7.client.Authentication;
+import me.lab7.common.*;
 import me.lab7.common.data.LabWork;
-import me.lab7.common.Request;
-import me.lab7.common.RequestWithCommands;
-import me.lab7.common.RequestWithLabWork;
-import me.lab7.common.Response;
 import me.lab7.server.manager.CollectionManager;
 import me.lab7.server.manager.CommandManager;
 import me.lab7.server.manager.SqlManager;
 import me.lab7.server.manager.SqlUserManager;
+import org.postgresql.util.PSQLException;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,9 +61,11 @@ public class ServerInstance {
         try (ServerSocket serv = new ServerSocket(port)) {
             serv.setSoTimeout(SOCKET_TIMEOUT);
             start();
-            System.out.println("Сервер начал работать хост=" + InetAddress.getLocalHost() +" порт=" + port);
+            System.out.println("Сервер начал работать хост=" + InetAddress.getLocalHost() + " порт=" + port);
             while (true) {
-                if (acceptConsoleInput()){return;}
+                if (acceptConsoleInput()) {
+                    return;
+                }
                 try {
                     while (true) {
                         Socket newClient = serv.accept();
@@ -85,6 +86,7 @@ public class ServerInstance {
 
     private void start() {
         try {
+            this.sqlUserManager.initUserTable();
             this.sqlManager.initTableOrExecuteLabWorks();
         } catch (SQLException e) {
             logger.severe("не удалось прочитать базу данных" + e);
@@ -98,6 +100,7 @@ public class ServerInstance {
             MessageHandler client = it.next();
             try {
                 if (client.checkForMessage()) {
+//                if (checkForMessage(client)){
                     Object message = client.getMessage();
                     if (message instanceof Request) {
                         logger.info("началась обработка команды");
@@ -105,19 +108,22 @@ public class ServerInstance {
                         logger.info("закончилась обработка команды обработка команды");
                         client.sendMessage(response);
                         logger.info("ответ клиенту отправлен");
-                    }
-                    else if (message instanceof RequestWithLabWork) {
+                    } else if (message instanceof RequestWithLabWork) {
                         logger.info("добавление лабораторной работы");
                         Response response = selectCommand(((RequestWithLabWork) message).getCommands(), ((RequestWithLabWork) message).getLabWork());
                         logger.info("лабораторная работа добавлена");
                         client.sendMessage(response);
                         logger.info("ответ клиенту отправлен");
-                    } else if (message instanceof RequestWithCommands){
+                    } else if (message instanceof RequestWithCommands) {
                         logger.info("началась обработка скрипта");
-                        Response response = selectWithCommands(((RequestWithCommands) message).getName(),((RequestWithCommands) message).getCommands());
+                        Response response = selectWithCommands(((RequestWithCommands) message).getName(), ((RequestWithCommands) message).getCommands());
                         logger.info("началась обработка скрипта");
                         client.sendMessage(response);
                         logger.info("ответ клиенту отправлен");
+                    } else if (message instanceof RequestWithClient) {
+                        logger.info("подключение нового клиента");
+                        var responseWithBooleanType = selectAuthCommand(((RequestWithClient) message).getCommand(), ((RequestWithClient) message).getClient());
+                        client.sendMessage(responseWithBooleanType);
                     }
                     client.clearBuffer();
                 }
@@ -128,6 +134,42 @@ public class ServerInstance {
                 throw new RuntimeException(e);
             }
         }
+    }
+//    private void checkForMessage(MessageHandler client)throws IOException{
+//        boolean a =  new Thread(()->{
+//            try {
+//                boolean  b = client.checkForMessage();
+//            } catch (IOException e) {
+//                System.out.println();
+//            }
+//        }).start();
+//    }
+
+    private ResponseWithBooleanType selectAuthCommand(String command, Authentication client) {
+        if (command.equals("reg")) {
+            try {
+                return new ResponseWithBooleanType(sqlUserManager.registration(client), true);
+            } catch (PSQLException e) {
+                logger.info(client.getUserName() + e);
+                return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
+            } catch (SQLException e) {
+                logger.info(client.getUserName() + e);
+                return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
+            }
+        }
+        if (command.equals("login")) {
+            try {
+                if (sqlUserManager.login(client) != null)
+                    return new ResponseWithBooleanType("пользователь авторизован", true);
+            } catch (PSQLException e) {
+                logger.info(client.getUserName() + e);
+                return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
+            } catch (SQLException e) {
+                logger.info(client.getUserName() + e);
+                return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
+            }
+        }
+        return null;
     }
 
     private boolean acceptConsoleInput() throws IOException {
@@ -155,6 +197,7 @@ public class ServerInstance {
     public Response selectCommand(String command, LabWork labWork) {
         return commandManager.commandSelection(command, labWork);
     }
+
     public Response selectWithCommands(String command, ArrayList<String> commands) {
         return commandManager.commandSelectionFromScript(command, commands);
     }

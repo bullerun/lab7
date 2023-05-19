@@ -23,6 +23,7 @@ public class LabWork implements Comparable<LabWork>, Serializable {
     private long minimalPoint; //Значение поля должно быть больше 0
     private Difficulty difficulty; //Поле может быть null
     private Discipline discipline; //Поле может быть null
+    private Long ownerID;
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
@@ -98,6 +99,12 @@ public class LabWork implements Comparable<LabWork>, Serializable {
     public void setDiscipline(Discipline discipline) {
         this.discipline = discipline;
     }
+    public void setOwnerID(Long ownerID){
+        this.ownerID = ownerID;
+    }
+    public Long getOwnerID(){
+        return ownerID;
+    }
 
     @Override
     public String toString() {
@@ -113,9 +120,5 @@ public class LabWork implements Comparable<LabWork>, Serializable {
     @Override
     public int compareTo(LabWork other) {
         return id.compareTo(other.getId());
-    }
-
-    public void setCrationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
     }
 }
