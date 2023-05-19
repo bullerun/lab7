@@ -4,74 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efce9294-3f40-489b-b6db-4185b6fb99f0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LabWork.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/a.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/g.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/LabAsk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/ScriptReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Sender.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/ValidationChecker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/Encoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithCommands.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithLabWork.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/Response.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Coordinates.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Difficulty.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Discipline.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/LabWork.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/exception/IncorrectScript.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/exception/MustBeEmptyException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/exception/MustBeNotEmptyException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/exception/RangeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/exception/ScriptRecursionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/utilities/RunMode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/utilities/RunModeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/MessageHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AbstractCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AbstractCommandWithLabWork.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommandWithPerson.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AverageOfMinimalPointCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ClearCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/Command.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/CommandWithLabWork.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ExecuteScriptCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ExitCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/HelpCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/HistoryCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/InfoCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/PrintFieldDescendingDisciplineCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveByIdCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveGreaterCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveLowerCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/SaveCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ShowCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/SumOfMinimalPointCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CommandManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlUserManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/utility/FileHanding.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/utility/LabAsk.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/xml/LabWorkDeserializer.java" afterDir="false" />
+    <list default="true" id="efce9294-3f40-489b-b6db-4185b6fb99f0" name="Changes" comment="аутентификация пользователя, создание нормализованной бд">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/MessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,9 +57,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/nikitosek/IdeaProjects/no7_220423_863847963",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/nikitosek/IdeaProjects/lab6Final",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -135,7 +73,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.lab7.client.Client" />
       <module name="lab7.main" />
@@ -170,8 +108,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
         <item itemvalue="Application.Server" />
+        <item itemvalue="Application.Client" />
       </list>
     </recent_temporary>
   </component>
@@ -184,11 +122,48 @@
       <option name="presentableId" value="Default" />
       <updated>1684185897964</updated>
       <workItem from="1684185899294" duration="3000" />
-      <workItem from="1684197394601" duration="17268000" />
+      <workItem from="1684197394601" duration="73624000" />
+      <workItem from="1684501522354" duration="1089000" />
     </task>
+    <task id="LOCAL-00001" summary="create and read db">
+      <created>1684320265469</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684320265469</updated>
+    </task>
+    <task id="LOCAL-00002" summary="аутентификация пользователя, создание нормализованной бд">
+      <created>1684484303497</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1684484303497</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="create and read db" />
+    <MESSAGE value="аутентификация пользователя, создание нормализованной бд" />
+    <option name="LAST_COMMIT_MESSAGE" value="аутентификация пользователя, создание нормализованной бд" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlUserManager.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/lab7$Server.ic" NAME="Server Coverage Results" MODIFIED="1684432908002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>me.lab7.server.*</FILTER>
+    </SUITE>
   </component>
 </project>

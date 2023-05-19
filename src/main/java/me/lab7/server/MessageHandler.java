@@ -43,7 +43,8 @@ public class MessageHandler {
             return false;
         }
     }
-    public void sendMessage(Object object) throws IOException {
+
+    public void sendResponse(Object object) throws IOException {
         socket.getOutputStream().write(Encoder.encode(object).array());
     }
 
