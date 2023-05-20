@@ -4,6 +4,8 @@ package me.lab7.client;
 import me.lab7.common.Authentication;
 import me.lab7.common.Response;
 import me.lab7.common.ResponseWithBooleanType;
+import me.lab7.common.ResponseWithLabWork;
+import me.lab7.common.data.LabWork;
 import me.lab7.common.exception.MustBeNotEmptyException;
 import me.lab7.common.exception.RangeException;
 
@@ -56,8 +58,13 @@ public class Console {
     public void selectCommand(String[] command) {
         try {
             if (command[0].equals("add")) {
-                sender.sendMessageWithLabWork(labAsk.addLabWork(), client);
+                sender.sendMessageWithLabWork("add", labAsk.addLabWork(), client);
                 hookResponse();
+            } else if (command[0].equals("update")) {
+                if (ValidationChecker.checkValidation(command)) {
+                    sender.sendMessageWithUpdate(command, client);
+                    hookUpdateResponse();
+                }
             } else if (command[0].equals("execute_script")) {
                 scriptReader.scriptReader(command[1]);
                 if (!scriptReader.getCommands().isEmpty()) {
@@ -79,6 +86,29 @@ public class Console {
         }
     }
 
+    private void hookUpdateResponse() throws IOException {
+        ResponseWithLabWork response = (ResponseWithLabWork) waitForResponse();
+        if (response != null && response.getLabWork()!=null) {
+            System.out.println(response.getResponse());
+            sender.clearInBuffer();
+            update(response.getLabWork());
+        }else {
+            System.out.println("Такой лабораторной работы нет или у вас нет прав изменять её");
+        }
+    }
+
+    private void update(LabWork labWork) throws IOException {
+        labAsk.setLabWork(labWork);
+        if (labAsk.updateById("Хотите изменить имя?")) labAsk.nameAsk();
+        if (labAsk.updateById("Хотите изменить координаты?")) labAsk.coordinatesAsk();
+        if (labAsk.updateById("Хотите изменить минимальный балл?")) labAsk.minimalPointAsk();
+        if (labAsk.updateById("Хотите изменить сложность?")) labAsk.difficultyAsk();
+        if (labAsk.updateById("Хотите изменить дисциплину?")) labAsk.disciplineAsk();
+        System.out.println(labAsk.getLabWork());
+        sender.sendMessageWithLabWork("update", labAsk.getLabWork(), client);
+        hookResponse();
+    }
+
     private void hookResponse() throws IOException {
         Response response = (Response) waitForResponse();
         if (response != null) {
@@ -95,9 +125,11 @@ public class Console {
                 Object received = sender.getPayload();
                 if (received instanceof Response) {
                     return received;
-                } else if (received instanceof ResponseWithBooleanType)
+                } else if (received instanceof ResponseWithBooleanType) {
                     return received;
-                else {
+                } else if (received instanceof ResponseWithLabWork) {
+                    return received;
+                } else {
                     System.out.println("Получен неверный ответ с сервера");
                     break;
                 }

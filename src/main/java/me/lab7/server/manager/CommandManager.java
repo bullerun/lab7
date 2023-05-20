@@ -1,6 +1,7 @@
 package me.lab7.server.manager;
 
 
+import me.lab7.common.ResponseWithLabWork;
 import me.lab7.common.data.LabWork;
 import me.lab7.common.Response;
 import me.lab7.server.command.*;
@@ -24,6 +25,7 @@ public class CommandManager {
     Map<String, Command> commands = new HashMap<>();
     Map<String, CommandWithLabWork> commandsWithLabWork = new HashMap<>();
     private final ExitCommand exitCommand;
+    private final UpdateByIdCommand update;
     private final LabAsk labAsk;
 
     public CommandManager(CollectionManager collectionManager, LabAsk labAsk, SqlCollectionManager sqlCollectionManager) {
@@ -44,6 +46,7 @@ public class CommandManager {
 
         commandsForHelpCommand.add(new HelpCommand(commandsForHelpCommand));
         commandsWithLabWork.put("add", new AddCommandWithPerson(collectionManager, sqlCollectionManager));
+        commandsWithLabWork.put("update", new UpdateByIdCommandWithPerson(collectionManager, sqlCollectionManager));
         commands.put("help", new HelpCommand(commandsForHelpCommand));
         commands.put("info", new InfoCommand(collectionManager));
         commands.put("history", new HistoryCommand(lastCommands));
@@ -56,6 +59,7 @@ public class CommandManager {
         commands.put("print_field_descending_discipline", new PrintFieldDescendingDisciplineCommand(collectionManager));
         commands.put("remove_greater", new RemoveGreaterCommand(collectionManager, sqlCollectionManager));
         commands.put("remove_lower", new RemoveLowerCommand(collectionManager, sqlCollectionManager));
+        update = new UpdateByIdCommand(collectionManager);
         exitCommand = new ExitCommand();
     }
 
@@ -64,7 +68,10 @@ public class CommandManager {
         addCommandHistory(command[0]);
         return commands.get(command[0]).execute(command[1], client);
     }
-
+    public ResponseWithLabWork updateCommand(String[] command, Long client) {
+        addCommandHistory(command[0]);
+        return update.execute(command[1], client);
+    }
     public Response commandSelection(String command, LabWork labWork, Long client) {
         addCommandHistory(command);
         return commandsWithLabWork.get(command).execute(labWork, client);

@@ -26,8 +26,10 @@ public class RemoveByIdCommand extends AbstractCommand {
         try {
             if (argument.isEmpty()) throw new MustBeNotEmptyException();
             sqlCollectionManager.removeByID(Long.parseLong(argument.trim()), client);
-            collectionManager.removeByID(Long.parseLong(argument.trim()), client);
-            return new Response("Лабораторная работа c таким id теперь точно нету");
+            if(collectionManager.removeByID(Long.parseLong(argument.trim()), client)){
+                return new Response("Лабораторная работа c таким id удалена");
+            };
+            return new Response("Неверные права доступа");
         } catch (MustBeNotEmptyException e) {
             return new Response("Id не введен");
 

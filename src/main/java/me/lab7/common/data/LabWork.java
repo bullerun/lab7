@@ -75,7 +75,7 @@ public class LabWork implements Comparable<LabWork>, Serializable {
         if (name.equals("")) throw new MustBeNotEmptyException();
         this.name = name;
     }
-
+    public void setCoordinates(Coordinates coordinates){this.coordinates = coordinates;}
     public void setMinimalPoint(long minimalPoint) throws RangeException {
         if (minimalPoint <= MINIMAL_POINT) throw new RangeException();
         this.minimalPoint = minimalPoint;

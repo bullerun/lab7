@@ -3,6 +3,7 @@ package me.lab7.server.utility;
 import me.lab7.common.data.Coordinates;
 import me.lab7.common.data.Discipline;
 import me.lab7.common.data.LabWork;
+import me.lab7.common.exception.IncorrectScript;
 import me.lab7.common.exception.MustBeNotEmptyException;
 import me.lab7.common.exception.RangeException;
 

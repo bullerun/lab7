@@ -11,7 +11,7 @@ public class AddCommandWithPerson extends AbstractCommandWithLabWork {
     private final SqlCollectionManager sqlCollectionManager;
 
     public AddCommandWithPerson(CollectionManager collectionManager, SqlCollectionManager sqlCollectionManager) {
-        super("add", "добавляет новый элемент в коллекцию");
+        super("add");
         this.collectionManager = collectionManager;
         this.sqlCollectionManager = sqlCollectionManager;
     }

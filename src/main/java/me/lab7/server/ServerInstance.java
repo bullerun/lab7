@@ -162,80 +162,94 @@ public class ServerInstance {
                                 return selectAuthCommand(((RequestWithClient) message).getCommand(), ((RequestWithClient) message).getClient());
                             }).get();
                             sendResponse(responseWithBooleanType);
+                        } else if (message instanceof RequestUpdate) {
+                            logger.info("началась обработка команды");
+                            ResponseWithLabWork response = selectorCommand.submit(() -> {
+                                return update(((RequestUpdate) message).getCommands(), ((RequestUpdate) message).getClient());
+                            }).get();
+                            logger.info("закончилась обработка команды обработка команды");
+                            sendResponse(response);
                         }
                         client.clearBuffer();
                     }
-                } catch (IOException | InterruptedException | ExecutionException e) {
-                    stop();
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-        }
-
-        private void sendResponse(Object response) {
-            new Thread(() -> {
-                try {
-                    client.sendResponse(response);
-                    logger.info("ответ клиенту отправлен");
-                } catch (IOException e) {
-                    logger.info("ответ клиенту не удалось отправить");
+                } catch (IOException | InterruptedException | ExecutionException | ClassNotFoundException e) {
                     stop();
                 }
-            }).start();
+            }
+
         }
 
-        private ResponseWithBooleanType selectAuthCommand(String command, Authentication client) {
-            if (command.equals("reg")) {
-                try {
-                    return new ResponseWithBooleanType(sqlUserManager.registration(client), true);
-                } catch (PSQLException e) {
-                    logger.info(client.getUserName() + e);
-                    return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
-                } catch (SQLException e) {
-                    logger.info("sql недоступна " + e);
-                    return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
-                }
-            }
-            if (command.equals("login")) {
-                try {
-                    if (sqlUserManager.login(client) != null)
-                        return new ResponseWithBooleanType("пользователь авторизован", true);
-                } catch (PSQLException e) {
-                    logger.info(client.getUserName() + e);
-                    return new ResponseWithBooleanType("Неверно веден логин или пароль", false);
-                } catch (SQLException e) {
-                    logger.info("sql недоступна " + e);
-                    return new ResponseWithBooleanType("на сервере произошла неизвестная ошибка попытайтесь подключиться позже", false);
-                }
-            }
-            return new ResponseWithBooleanType("пользователь не авторизован", false);
-        }
-
-        public Response selectCommand(String[] command, Authentication client) {
+        private ResponseWithLabWork update(String[] commands, Authentication client) {
             try {
-                return commandManager.commandSelection(command, sqlUserManager.login(client));
+                return commandManager.updateCommand(commands, sqlUserManager.login(client));
             } catch (SQLException e) {
-                return new Response("не удалось выполнить команду" + command[0] + "пользователь не обнаружен");
+                return new ResponseWithLabWork("не удалось выполнить команду update", null);
             }
         }
 
-        public Response selectCommand(String command, LabWork labWork, Authentication client) {
+
+    private void sendResponse(Object response) {
+        new Thread(() -> {
             try {
-                return commandManager.commandSelection(command, labWork, sqlUserManager.login(client));
-            } catch (SQLException e) {
-                return new Response("не удалось выполнить команду" + command + "пользователь не обнаружен");
+                client.sendResponse(response);
+                logger.info("ответ клиенту отправлен");
+            } catch (IOException e) {
+                logger.info("ответ клиенту не удалось отправить");
+                stop();
             }
-        }
-
-        public Response selectWithCommands(String command, ArrayList<String> commands, Authentication client) {
-            try {
-                return commandManager.commandSelectionFromScript(command, commands, sqlUserManager.login(client));
-            } catch (SQLException e) {
-                return new Response("не удалось выполнить команду" + command + "пользователь не обнаружен");
-            }
-        }
-
+        }).start();
     }
+
+    private ResponseWithBooleanType selectAuthCommand(String command, Authentication client) {
+        if (command.equals("reg")) {
+            try {
+                return new ResponseWithBooleanType(sqlUserManager.registration(client), true);
+            } catch (PSQLException e) {
+                logger.info(client.getUserName() + e);
+                return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
+            } catch (SQLException e) {
+                logger.info("sql недоступна " + e);
+                return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
+            }
+        }
+        if (command.equals("login")) {
+            try {
+                if (sqlUserManager.login(client) != null)
+                    return new ResponseWithBooleanType("пользователь авторизован", true);
+            } catch (PSQLException e) {
+                logger.info(client.getUserName() + e);
+                return new ResponseWithBooleanType("Неверно веден логин или пароль", false);
+            } catch (SQLException e) {
+                logger.info("sql недоступна " + e);
+                return new ResponseWithBooleanType("на сервере произошла неизвестная ошибка попытайтесь подключиться позже", false);
+            }
+        }
+        return new ResponseWithBooleanType("пользователь не авторизован", false);
+    }
+
+    public Response selectCommand(String[] command, Authentication client) {
+        try {
+            return commandManager.commandSelection(command, sqlUserManager.login(client));
+        } catch (SQLException e) {
+            return new Response("не удалось выполнить команду " + command[0] + " нехватка прав или лабораторная работа не обнаружена");
+        }
+    }
+
+    public Response selectCommand(String command, LabWork labWork, Authentication client) {
+        try {
+            return commandManager.commandSelection(command, labWork, sqlUserManager.login(client));
+        } catch (SQLException e) {
+            return new Response("не удалось выполнить команду " + command + " нехватка прав или лабораторная работа не обнаружена");
+        }
+    }
+
+    public Response selectWithCommands(String command, ArrayList<String> commands, Authentication client) {
+        try {
+            return commandManager.commandSelectionFromScript(command, commands, sqlUserManager.login(client));
+        } catch (SQLException e) {
+            return new Response("не удалось выполнить команду " + command + " нехватка прав или лабораторная работа не обнаружена");
+        }
+    }
+
+}
 }

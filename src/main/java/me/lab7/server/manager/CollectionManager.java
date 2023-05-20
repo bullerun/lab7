@@ -40,24 +40,28 @@ public class CollectionManager {
         lock.writeLock().unlock();
     }
 
-    public void removeByID(Long removeLabWorkId, Long client) {
+    public boolean removeByID(Long removeLabWorkId, Long client) {
         lock.writeLock().lock();
-        labWorks.removeIf(i -> i.getId() == removeLabWorkId && i.getOwnerID().equals(client));
+        var did = labWorks.removeIf(i -> i.getId() == removeLabWorkId && i.getOwnerID().equals(client));
         lock.writeLock().unlock();
+        return did;
 
     }
 
-    public void removeGreater( Long id, Long client) {
+    public boolean removeGreater(Long id, Long client) {
         lock.writeLock().lock();
-        labWorks.removeIf(i-> i.getId()>id && i.getOwnerID().equals(client));
+        var did = labWorks.removeIf(i -> i.getId() > id && i.getOwnerID().equals(client));
         lock.writeLock().unlock();
+        return did;
     }
 
-    public void removeLower( Long id, Long client) {
+    public boolean removeLower(Long id, Long client) {
         lock.writeLock().lock();
-        labWorks.removeIf(i-> i.getId()<id && i.getOwnerID().equals(client));
+        var did = labWorks.removeIf(i -> i.getId() < id && i.getOwnerID().equals(client));
         lock.writeLock().unlock();
+        return did;
     }
+
     public LocalDate getCreatingCollection() {
         return creatingCollection;
     }
@@ -70,5 +74,22 @@ public class CollectionManager {
 
     public void initializeData(NavigableSet<LabWork> collection) {
         labWorks.addAll(collection);
+    }
+
+    public LabWork getElementById(Long updateLabWorkId, Long client) {
+        lock.readLock().lock();
+        LabWork a = labWorks.stream()
+                .filter(i -> i.getId() == updateLabWorkId && i.getOwnerID().equals(client))
+                .findFirst()
+                .orElse(null);
+        lock.readLock().unlock();
+        return a;
+    }
+
+    public void update(LabWork labWork, Long client) {
+        lock.writeLock().lock();
+        if (labWorks.removeIf(i -> i.getId() == labWork.getId() && i.getOwnerID().equals(client)))
+            labWorks.add(labWork);
+        lock.writeLock().unlock();
     }
 }

@@ -3,16 +3,19 @@ package me.lab7.client;
 import me.lab7.common.data.*;
 import me.lab7.common.exception.*;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+
 /**
  * auxiliary class for working with an instance of the LabWork class
+ *
  * @author Nikita and Vlad
  * @version 0.1
  */
 public class LabAsk {
     private final Long MINIMAL_POINT = 0L;
     private final float MINIMAL_X_COORDINATES = -18;
-    private final Scanner scanner;
+    private Scanner scanner;
 
     private LabWork labWork;
 
@@ -20,6 +23,12 @@ public class LabAsk {
     public LabAsk(Scanner scanner) {
         this.scanner = scanner;
     }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+
     public void setLabWork(LabWork labWork) {
         this.labWork = labWork;
     }
@@ -111,7 +120,6 @@ public class LabAsk {
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("нет такой сложности, повторите ввод");
-
             }
         }
     }
@@ -166,5 +174,25 @@ public class LabAsk {
 
             }
         }
+    }
+
+    public boolean updateById(String ask) {
+        while (true) {
+            try {
+                String answer;
+                System.out.println(ask);
+                System.out.println("Если да, введите 'yes', если нет, то введите 'no' или нажмите 'enter'");
+                answer = scanner.nextLine().trim().toLowerCase();
+                if (answer.equals("yes")) return true;
+                if (answer.equals("") | answer.equals("no")) return false;
+                throw new IllegalArgumentException();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Неверный ввод, введите только 'yes', если хотите сделать изменения, или 'no', если не хотите");
+            }
+        }
+    }
+
+    public LabWork getLabWork() {
+        return labWork;
     }
 }

@@ -19,7 +19,6 @@ public class Coordinates implements Serializable {
     private Long y; //Поле не может быть null
 
     public Coordinates() {
-
     }
 
     public void setX(float x) throws RangeException, IllegalArgumentException {

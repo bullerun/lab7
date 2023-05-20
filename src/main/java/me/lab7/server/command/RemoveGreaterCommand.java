@@ -27,8 +27,12 @@ public class RemoveGreaterCommand extends AbstractCommand {
         try {
             if (argument.isEmpty()) throw new MustBeNotEmptyException();
             sqlCollectionManager.removeGreater(Long.parseLong(argument.trim()), client);
-            collectionManager.removeGreater(Long.parseLong(argument.trim()), client);
-            return new Response("Удаления завершены успешно");
+            if (collectionManager.removeGreater(Long.parseLong(argument.trim()), client)) {
+                 return new Response("Удаления завершены успешно");
+            }
+            ;
+            return new Response("Неверные права доступа");
+
 
         } catch (MustBeNotEmptyException e) {
             return new Response("Id не введен");

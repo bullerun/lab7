@@ -4,43 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="efce9294-3f40-489b-b6db-4185b6fb99f0" name="Changes" comment="делал поток для клиентов">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+    <list default="true" id="efce9294-3f40-489b-b6db-4185b6fb99f0" name="Changes" comment="вроде сделано">
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestUpdate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/ResponseWithLabWork.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/UpdateByIdCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/UpdateByIdCommandWithPerson.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/g.txt" beforeDir="false" afterPath="$PROJECT_DIR$/g.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/Authentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/Authentication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/Request.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithLabWork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestWithLabWork.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/LabAsk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/LabAsk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Sender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Coordinates.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/LabWork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/LabWork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/MessageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AbstractCommandWithLabWork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AbstractCommandWithLabWork.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommandWithPerson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommandWithPerson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AverageOfMinimalPointCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AverageOfMinimalPointCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ClearCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ClearCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/CommandWithLabWork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/CommandWithLabWork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ExecuteScriptCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ExecuteScriptCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ExitCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ExitCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/HelpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/HistoryCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/HistoryCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/InfoCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/InfoCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/PrintFieldDescendingDisciplineCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/PrintFieldDescendingDisciplineCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveByIdCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveByIdCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveGreaterCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveLowerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveLowerCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/SaveCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ShowCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/ShowCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/SumOfMinimalPointCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/SumOfMinimalPointCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CommandManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlUserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlUserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/utility/LabAsk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/utility/LabAsk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,14 +103,14 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Gradle.lab7 [fatJar2]">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.lab7.client.Client" />
       <module name="lab7.main" />
       <option name="PROGRAM_PARAMETERS" value="123 10642" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="me.lab7.common.*" />
+          <option name="PATTERN" value="me.lab7.common.Response" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -147,12 +132,60 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="lab7 [fatJar1]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="fatJar1" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="lab7 [fatJar2]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="fatJar2" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Client" />
       <item itemvalue="Application.Server" />
+      <item itemvalue="Gradle.lab7 [fatJar1]" />
+      <item itemvalue="Gradle.lab7 [fatJar2]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.lab7 [fatJar2]" />
+        <item itemvalue="Gradle.lab7 [fatJar1]" />
         <item itemvalue="Application.Server" />
         <item itemvalue="Application.Client" />
       </list>
@@ -169,7 +202,7 @@
       <workItem from="1684185899294" duration="3000" />
       <workItem from="1684197394601" duration="73624000" />
       <workItem from="1684501522354" duration="2524000" />
-      <workItem from="1684504778709" duration="34321000" />
+      <workItem from="1684504778709" duration="53032000" />
     </task>
     <task id="LOCAL-00001" summary="create and read db">
       <created>1684320265469</created>
@@ -192,7 +225,21 @@
       <option name="project" value="LOCAL" />
       <updated>1684503119055</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="вроде сделано">
+      <created>1684544651285</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684544651285</updated>
+    </task>
+    <task id="LOCAL-00005" summary="вроде сделано">
+      <created>1684546029889</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1684546029889</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +260,8 @@
     <MESSAGE value="create and read db" />
     <MESSAGE value="аутентификация пользователя, создание нормализованной бд" />
     <MESSAGE value="делал поток для клиентов" />
-    <option name="LAST_COMMIT_MESSAGE" value="делал поток для клиентов" />
+    <MESSAGE value="вроде сделано" />
+    <option name="LAST_COMMIT_MESSAGE" value="вроде сделано" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -227,6 +275,36 @@
           <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java</url>
           <line>37</line>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java</url>
+          <line>156</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java</url>
+          <line>79</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/command/UpdateByIdCommandWithPerson.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java</url>
+          <line>185</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

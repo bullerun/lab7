@@ -27,9 +27,10 @@ public class RemoveLowerCommand extends AbstractCommand {
         try {
             if (argument.isEmpty()) throw new MustBeNotEmptyException();
             sqlCollectionManager.removeLower(Long.parseLong(argument.trim()), client);
-            collectionManager.removeLower(Long.parseLong(argument.trim()), client);
-            return new Response("Удаления завершены успешно");
-
+            if (collectionManager.removeLower(Long.parseLong(argument.trim()), client)) {
+                return new Response("Удаления завершены успешно");
+            }
+            return new Response("Неверные права доступа");
         } catch (MustBeNotEmptyException e) {
             return new Response("Id не введен");
 

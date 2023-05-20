@@ -23,13 +23,13 @@ public class SqlCollectionManager {
             "    coordinates_id BIGSERIAL PRIMARY KEY," +
             "    X_coordinates  REAL," +
             "    Y_coordinates  BIGINT NOT NULL," +
-            "    labwork_id BIGINT NOT NULL REFERENCES Labworks(id) on DELETE CASCADE" +
+            "    labwork_id BIGINT UNIQUE NOT NULL REFERENCES Labworks(id) on DELETE CASCADE  " +
             ");" +
             "CREATE TABLE IF NOT EXISTS Discipline(" +
             "    discipline_id   BIGSERIAL PRIMARY KEY," +
             "    discipline_name VARCHAR(127)," +
             "    practice_hours  INTEGER," +
-            "    labwork_id BIGINT NOT NULL REFERENCES Labworks(id) on DELETE CASCADE" +
+            "    labwork_id BIGINT UNIQUE NOT NULL REFERENCES Labworks(id) on DELETE CASCADE" +
             ");";
 
     public SqlCollectionManager(Connection conn, Logger logger) {
@@ -129,37 +129,71 @@ public class SqlCollectionManager {
         return labWorks;
     }
 
-    public void clear(Long client) throws SQLException {
+    public void clear(Long userId) throws SQLException {
         String CLEAR = "DELETE FROM labworks WHERE owner_id=?";
         try (PreparedStatement preparedStatement = conn.prepareStatement(CLEAR)) {
-            preparedStatement.setLong(1, client);
+            preparedStatement.setLong(1, userId);
             preparedStatement.executeUpdate();
         }
     }
 
-    public void removeByID(Long id, Long client) throws SQLException {
+    public void removeByID(Long id, Long userId) throws SQLException {
         String CLEAR = "DELETE FROM labworks WHERE id=? and owner_id=? ";
         try (PreparedStatement preparedStatement = conn.prepareStatement(CLEAR)) {
             preparedStatement.setLong(1, id);
-            preparedStatement.setLong(2, client);
+            preparedStatement.setLong(2, userId);
             preparedStatement.executeUpdate();
         }
     }
 
-    public void removeGreater(Long id, Long client) throws SQLException {
+    public void removeGreater(Long id, Long userId) throws SQLException {
         String CLEAR = "DELETE FROM labworks WHERE id>? and owner_id=? ";
         try (PreparedStatement preparedStatement = conn.prepareStatement(CLEAR)) {
             preparedStatement.setLong(1, id);
-            preparedStatement.setLong(2, client);
+            preparedStatement.setLong(2, userId);
             preparedStatement.executeUpdate();
         }
     }
 
-    public void removeLower(Long id, Long client) throws SQLException {
+    public void removeLower(Long id, Long userId) throws SQLException {
         String CLEAR = "DELETE FROM labworks WHERE id<? and owner_id=? ";
         try (PreparedStatement preparedStatement = conn.prepareStatement(CLEAR)) {
             preparedStatement.setLong(1, id);
-            preparedStatement.setLong(2, client);
+            preparedStatement.setLong(2, userId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public void update(LabWork labWork, Long userId) throws SQLException {
+        String LABWORK = "UPDATE Labworks SET name = ?, creation_date = ?, minimal_point = ?, difficulty = ?, owner_id = ? WHERE id = ?;";
+        String DISCIPLINE = "INSERT INTO Discipline (discipline_name, practice_hours, labwork_id) VALUES (?, ?, ?) ON CONFLICT (labwork_id) DO UPDATE SET discipline_name = excluded.discipline_name, practice_hours = excluded.practice_hours;";
+        String COORDINATES = "UPDATE Coordinates SET x_coordinates = ?, y_coordinates = ? WHERE labwork_id = ?;";
+        String difficulty = null;
+        if (labWork.getDifficulty() != null) {
+            difficulty = labWork.getDifficulty().toString();
+        }
+        var labWorkID = labWork.getId();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(LABWORK)) {
+            preparedStatement.setString(1, labWork.getName());
+            preparedStatement.setDate(2, Date.valueOf(labWork.getCreationDate()));
+            preparedStatement.setLong(3, labWork.getMinimalPoint());
+            preparedStatement.setString(4, difficulty);
+            preparedStatement.setLong(5, userId);
+            preparedStatement.setLong(6, labWorkID);
+            preparedStatement.executeUpdate();
+        }
+        if (labWork.getDiscipline() != null) {
+            try (PreparedStatement preparedStatement = conn.prepareStatement(DISCIPLINE)) {
+                preparedStatement.setString(1, labWork.getDiscipline().getName());
+                preparedStatement.setInt(2, labWork.getDiscipline().getPracticeHours());
+                preparedStatement.setLong(3, labWorkID);
+                preparedStatement.executeUpdate();
+            }
+        }
+        try (PreparedStatement preparedStatement = conn.prepareStatement(COORDINATES)) {
+            preparedStatement.setFloat(1, labWork.getCoordinates().getX());
+            preparedStatement.setLong(2, labWork.getCoordinates().getY());
+            preparedStatement.setLong(3, labWorkID);
             preparedStatement.executeUpdate();
         }
     }
