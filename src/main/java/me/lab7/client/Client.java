@@ -27,9 +27,8 @@ public final class Client {
             InetSocketAddress addr = new InetSocketAddress(InetAddress.getLocalHost(), port);
             Scanner scanner = new Scanner(System.in);
             LabAsk labAsk = new LabAsk(scanner);
-            ScriptReader scriptReader = new ScriptReader(labAsk);
+            ScriptReader scriptReader = new ScriptReader();
             Console console = new Console(scanner, addr, labAsk, scriptReader);
-            scriptReader.setConsole(console);
             ValidationChecker validationChecker = new ValidationChecker();
             console.run();
 

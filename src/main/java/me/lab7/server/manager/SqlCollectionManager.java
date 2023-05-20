@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class SqlCollectionManager {
     private final Connection conn;
     private final Logger logger;
-    private NavigableSet<LabWork> labWorks = new TreeSet<>();
+    private final NavigableSet<LabWork> labWorks = new TreeSet<>();
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS Labworks(" +
             "    id            BIGSERIAL PRIMARY KEY," +
             "    name          VARCHAR(127) NOT NULL," +
@@ -49,7 +49,7 @@ public class SqlCollectionManager {
                 labWorks.add(labWork);
             }
 
-            logger.info("Загружено " + labWorks.size() + " лабораторных из базы дынных.");
+            logger.info("Загружено " + labWorks.size() + " лабораторных из базы данных.");
 
         }
     }

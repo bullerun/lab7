@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class LabAsk {
     private final Long MINIMAL_POINT = 0L;
     private final float MINIMAL_X_COORDINATES = -18;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     private LabWork labWork;
 
@@ -20,12 +20,6 @@ public class LabAsk {
     public LabAsk(Scanner scanner) {
         this.scanner = scanner;
     }
-
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-
     public void setLabWork(LabWork labWork) {
         this.labWork = labWork;
     }

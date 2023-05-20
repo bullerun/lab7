@@ -21,7 +21,7 @@ import java.util.Scanner;
  */
 public class Console {
     private final Sender sender;
-    private static final int TIMEOUT = 5;
+    private static final int TIMEOUT = 10;
     private static final int TIMEOUTMS = 100;
     private static final int MILLIS_IN_SECONDS = 1000;
     private String[] lastCommand;
@@ -137,6 +137,7 @@ public class Console {
             }
             while (true) {
                 try {
+                    System.out.println("Введите логин");
                     client.setUserName(scanner.nextLine().trim());
                     break;
                 } catch (RangeException e) {
@@ -147,6 +148,7 @@ public class Console {
             }
             while (true) {
                 try {
+                    System.out.println("Введите пароль, он должен состоять из 8 символов");
                     client.setPassword(scanner.nextLine().trim());
                     break;
                 } catch (RangeException e) {

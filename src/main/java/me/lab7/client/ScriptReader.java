@@ -13,17 +13,15 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ScriptReader {
-    private Console console;
+
 
     private final List<String> nameScripts = new ArrayList<>();
     private final List<Scanner> nameScanners = new ArrayList<>();
     private final ArrayList<String> commands = new ArrayList<>();
-    private final LabAsk labAsk;
+
     private boolean recursion=false;
 
-    public ScriptReader(LabAsk labAsk) {
-        this.labAsk = labAsk;
-    }
+
 
     public void scriptReader(String scriptPath) {
         try {
@@ -63,7 +61,6 @@ public class ScriptReader {
             }
         }
     }
-
     public ArrayList<String> getCommands() {
         return commands;
     }
@@ -71,9 +68,5 @@ public class ScriptReader {
     public void clearCommands() {
         nameScripts.clear();
         commands.clear();
-    }
-
-    public void setConsole(Console console) {
-        this.console = console;
     }
 }
