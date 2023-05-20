@@ -1,6 +1,7 @@
 package me.lab7.client;
 
 
+import me.lab7.common.Authentication;
 import me.lab7.common.Response;
 import me.lab7.common.ResponseWithBooleanType;
 import me.lab7.common.exception.MustBeNotEmptyException;
@@ -19,16 +20,16 @@ import java.util.Scanner;
  * @version 0.1
  */
 public class Console {
-    private Sender sender;
+    private final Sender sender;
     private static final int TIMEOUT = 5;
     private static final int TIMEOUTMS = 100;
     private static final int MILLIS_IN_SECONDS = 1000;
     private String[] lastCommand;
     private Authentication client;
-    private Scanner scanner;
-    private InetSocketAddress address;
-    private LabAsk labAsk;
-    private ScriptReader scriptReader;
+    private final Scanner scanner;
+    private final InetSocketAddress address;
+    private final LabAsk labAsk;
+    private final ScriptReader scriptReader;
 
     public Console(Scanner scanner, InetSocketAddress address, LabAsk labAsk, ScriptReader scriptReader) {
         this.scanner = scanner;
@@ -43,7 +44,7 @@ public class Console {
         if (lastCommand != null) selectCommand(lastCommand);
         String[] command;
         while (true) {
-            command = (scanner.nextLine().trim() + " ").split("\s", 2);
+            command = (scanner.nextLine().trim() + " ").split(" ", 2);
             if (!command[0].equals("")) {
                 command[1] = command[1].trim();
                 lastCommand = command;

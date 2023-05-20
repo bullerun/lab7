@@ -1,12 +1,12 @@
 package me.lab7.server;
 
-import me.lab7.client.Authentication;
 import me.lab7.common.*;
 import me.lab7.common.data.LabWork;
 import me.lab7.server.manager.CollectionManager;
 import me.lab7.server.manager.CommandManager;
-import me.lab7.server.manager.SqlManager;
+import me.lab7.server.manager.SqlCollectionManager;
 import me.lab7.server.manager.SqlUserManager;
+import me.lab7.server.utility.LabAsk;
 import org.postgresql.util.PSQLException;
 
 import java.io.File;
@@ -17,6 +17,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -24,31 +27,28 @@ public class ServerInstance {
     private final Logger logger;
     private static final int TIMEOUTWRITE = 100;
     private static final int SOCKET_TIMEOUT = 10;
-    private final HashSet<MessageHandler> clients;
-
+    private final ExecutorService selectorCommand = Executors.newCachedThreadPool();
     private final int port;
     private CommandManager commandManager;
     private final Scanner scanner;
-    private SqlManager sqlManager;
+    private SqlCollectionManager sqlCollectionManager;
     private SqlUserManager sqlUserManager;
-    private Connection connection;
-    private CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
-    public ServerInstance(int port, CommandManager commandManager, CollectionManager collectionManager, Scanner scanner, String dbUser, String dbPassword) {
+    public ServerInstance(int port, CollectionManager collectionManager, Scanner scanner, String dbUser, String dbPassword) {
         this.port = port;
-        this.commandManager = commandManager;
         this.collectionManager = collectionManager;
         this.scanner = scanner;
-        clients = new HashSet<>();
         this.logger = Logger.getLogger("log");
         File lf = new File("server.log");
-        FileHandler fh = null;
+        FileHandler fh;
         try {
-            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studs", "s368738", "XH9wjv2skRYOzgjX");
-            this.sqlManager = new SqlManager(connection, logger);
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/studs", dbUser, dbPassword);
+            this.sqlCollectionManager = new SqlCollectionManager(connection, logger);
             this.sqlUserManager = new SqlUserManager(connection, logger);
             fh = new FileHandler(lf.getAbsolutePath(), true);
             logger.addHandler(fh);
+            this.commandManager = new CommandManager(collectionManager, new LabAsk(scanner), sqlCollectionManager);
         } catch (IOException e) {
             System.out.println(e.getMessage() + "логер не записывает данные в файл");
         } catch (SQLException e) {
@@ -68,11 +68,9 @@ public class ServerInstance {
                     return;
                 }
                 try {
-                    while (true) {
-                        Socket newClient = serv.accept();
-                        newClient.setSoTimeout(SOCKET_TIMEOUT);
-                        handleRequests(new MessageHandler(newClient));
-                    }
+                    Socket newClient = serv.accept();
+                    newClient.setSoTimeout(SOCKET_TIMEOUT);
+                    handleRequests(new MessageHandler(newClient));
                 } catch (SocketTimeoutException e) {
                     if (check++ >= TIMEOUTWRITE) {
                         check = 0;
@@ -87,16 +85,16 @@ public class ServerInstance {
     private void start() {
         try {
             this.sqlUserManager.initUserTable();
-            this.sqlManager.initTableOrExecuteLabWorks();
+            this.sqlCollectionManager.initTableOrExecuteLabWorks();
         } catch (SQLException e) {
             logger.severe("не удалось прочитать базу данных" + e);
         }
-        collectionManager.initializeData(sqlManager.getCollection());
+        collectionManager.initializeData(sqlCollectionManager.getCollection());
     }
 
     public void handleRequests(MessageHandler client1) {
         new Thread(() -> {
-            ClientCashedPool client = new ClientCashedPool(client1);
+            Client client = new Client(client1);
             client.handleRequests();
         }).start();
     }
@@ -104,26 +102,20 @@ public class ServerInstance {
     private boolean acceptConsoleInput() throws IOException {
         if (System.in.available() > 0) {
             String command = scanner.nextLine().trim();
-            switch (command) {
-                case "save":
-                    logger.info("сохранение коллекции");
-                    commandManager.save();
-                    break;
-                case "exit":
-                    logger.info("завершение работы");
-                    commandManager.exit();
-                default:
-                    System.out.println("Команда не распознана, сервер распознаёт только команду 'save', 'exit'");
+            if (command.equals("exit")) {
+                logger.info("завершение работы");
+                commandManager.exit();
             }
+            System.out.println("Команда не распознана, сервер распознаёт только команду 'exit'");
         }
         return false;
     }
 
-    private class ClientCashedPool {
+    private class Client {
         private final MessageHandler client;
         private boolean running;
 
-        ClientCashedPool(MessageHandler socket) {
+        Client(MessageHandler socket) {
             this.client = socket;
             running = true;
         }
@@ -145,27 +137,35 @@ public class ServerInstance {
                         Object message = client.getMessage();
                         if (message instanceof Request) {
                             logger.info("началась обработка команды");
-                            Response response = selectCommand(((Request) message).getCommands());
+                            Response response = selectorCommand.submit(() -> {
+                                return selectCommand(((Request) message).getCommands(), ((Request) message).getClient());
+                            }).get();
                             logger.info("закончилась обработка команды обработка команды");
                             sendResponse(response);
                         } else if (message instanceof RequestWithLabWork) {
                             logger.info("добавление лабораторной работы");
-                            Response response = selectCommand(((RequestWithLabWork) message).getCommands(), ((RequestWithLabWork) message).getLabWork());
-                            logger.info("лабораторная работа добавлена");
+                            Response response = selectorCommand.submit(() -> {
+                                return selectCommand(((RequestWithLabWork) message).getCommands(), ((RequestWithLabWork) message).getLabWork(), ((RequestWithLabWork) message).getClient());
+                            }).get();
+                            logger.info(response.getResponse());
                             sendResponse(response);
                         } else if (message instanceof RequestWithCommands) {
                             logger.info("началась обработка скрипта");
-                            Response response = selectWithCommands(((RequestWithCommands) message).getName(), ((RequestWithCommands) message).getCommands());
+                            Response response = selectorCommand.submit(() -> {
+                                return selectWithCommands(((RequestWithCommands) message).getName(), ((RequestWithCommands) message).getCommands(), ((RequestWithCommands) message).getClient());
+                            }).get();
                             logger.info("началась обработка скрипта");
                             sendResponse(response);
                         } else if (message instanceof RequestWithClient) {
                             logger.info("подключение нового клиента");
-                            var responseWithBooleanType = selectAuthCommand(((RequestWithClient) message).getCommand(), ((RequestWithClient) message).getClient());
+                            ResponseWithBooleanType responseWithBooleanType = selectorCommand.submit(() -> {
+                                return selectAuthCommand(((RequestWithClient) message).getCommand(), ((RequestWithClient) message).getClient());
+                            }).get();
                             sendResponse(responseWithBooleanType);
                         }
                         client.clearBuffer();
                     }
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException | ExecutionException e) {
                     stop();
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -183,7 +183,7 @@ public class ServerInstance {
                     logger.info("ответ клиенту не удалось отправить");
                     stop();
                 }
-            });
+            }).start();
         }
 
         private ResponseWithBooleanType selectAuthCommand(String command, Authentication client) {
@@ -194,7 +194,7 @@ public class ServerInstance {
                     logger.info(client.getUserName() + e);
                     return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
                 } catch (SQLException e) {
-                    logger.info(client.getUserName() + e);
+                    logger.info("sql недоступна " + e);
                     return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
                 }
             }
@@ -204,26 +204,37 @@ public class ServerInstance {
                         return new ResponseWithBooleanType("пользователь авторизован", true);
                 } catch (PSQLException e) {
                     logger.info(client.getUserName() + e);
-                    return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
+                    return new ResponseWithBooleanType("Неверно веден логин или пароль", false);
                 } catch (SQLException e) {
-                    logger.info(client.getUserName() + e);
-                    return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
+                    logger.info("sql недоступна " + e);
+                    return new ResponseWithBooleanType("на сервере произошла неизвестная ошибка попытайтесь подключиться позже", false);
                 }
             }
-            return null;
+            return new ResponseWithBooleanType("пользователь не авторизован", false);
         }
 
-        public Response selectCommand(String[] command) {
-
-            return commandManager.commandSelection(command);
+        public Response selectCommand(String[] command, Authentication client) {
+            try {
+                return commandManager.commandSelection(command, sqlUserManager.login(client));
+            } catch (SQLException e) {
+                return new Response("не удалось выполнить команду" + command[0] + "пользователь не обнаружен");
+            }
         }
 
-        public Response selectCommand(String command, LabWork labWork) {
-            return commandManager.commandSelection(command, labWork);
+        public Response selectCommand(String command, LabWork labWork, Authentication client) {
+            try {
+                return commandManager.commandSelection(command, labWork, sqlUserManager.login(client));
+            } catch (SQLException e) {
+                return new Response("не удалось выполнить команду" + command + "пользователь не обнаружен");
+            }
         }
 
-        public Response selectWithCommands(String command, ArrayList<String> commands) {
-            return commandManager.commandSelectionFromScript(command, commands);
+        public Response selectWithCommands(String command, ArrayList<String> commands, Authentication client) {
+            try {
+                return commandManager.commandSelectionFromScript(command, commands, sqlUserManager.login(client));
+            } catch (SQLException e) {
+                return new Response("не удалось выполнить команду" + command + "пользователь не обнаружен");
+            }
         }
 
     }

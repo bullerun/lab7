@@ -1,9 +1,10 @@
 package me.lab7.server.command;
 
-import me.lab7.common.data.LabWork;
 import me.lab7.common.exception.MustBeNotEmptyException;
 import me.lab7.common.Response;
 import me.lab7.server.manager.CollectionManager;
+import me.lab7.server.manager.SqlCollectionManager;
+
 
 /**
  * command that deletes all laboratory works is greater than the entered
@@ -12,32 +13,34 @@ import me.lab7.server.manager.CollectionManager;
  * @version 0.1
  */
 public class RemoveGreaterCommand extends AbstractCommand {
-    CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
+    private final SqlCollectionManager sqlCollectionManager;
 
-    public RemoveGreaterCommand(CollectionManager collectionManager) {
+    public RemoveGreaterCommand(CollectionManager collectionManager, SqlCollectionManager sqlCollectionManager) {
         super("remove_greater {element}", "удаляет из коллекции все элементы, превышающие заданный");
         this.collectionManager = collectionManager;
+        this.sqlCollectionManager = sqlCollectionManager;
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         try {
             if (argument.isEmpty()) throw new MustBeNotEmptyException();
-            long removeLabWorksId = Long.parseLong(argument.trim());
-            LabWork removeLabWorks = collectionManager.getElementById(removeLabWorksId);
-            if (removeLabWorks == null) throw new NullPointerException();
-            collectionManager.removeGreater(removeLabWorks);
-                return new Response("Удаления завершены успешно");
-            
+            sqlCollectionManager.removeGreater(Long.parseLong(argument.trim()), client);
+            collectionManager.removeGreater(Long.parseLong(argument.trim()), client);
+            return new Response("Удаления завершены успешно");
+
         } catch (MustBeNotEmptyException e) {
             return new Response("Id не введен");
-            
+
         } catch (NullPointerException e) {
             return new Response("Лабораторной работы с таким Id отсутствует");
-            
+
         } catch (NumberFormatException e) {
             return new Response("Некорректный ввод");
-            
+
+        } catch (Exception e) {
+            return new Response("Ошибка при удалении");
         }
     }
 }

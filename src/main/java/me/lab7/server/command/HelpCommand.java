@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @version 0.1
  */
 public class HelpCommand extends AbstractCommand {
-    private ArrayList<Command> commandsForHelpCommand;
+    private final ArrayList<Command> commandsForHelpCommand;
 
     public HelpCommand(ArrayList<Command> commandsForHelpCommand) {
         super("help", "выводит справку по доступным командам");
@@ -20,7 +20,7 @@ public class HelpCommand extends AbstractCommand {
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         try {
             StringBuilder s = new StringBuilder();
             if (!argument.isEmpty()) throw new MustBeEmptyException();

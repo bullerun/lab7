@@ -1,5 +1,6 @@
 package me.lab7.server.command;
 
+
 import me.lab7.common.exception.MustBeEmptyException;
 import me.lab7.common.Response;
 import me.lab7.server.manager.CollectionManager;
@@ -20,7 +21,7 @@ public class ShowCommand extends AbstractCommand{
         this.collectionManager =collectionManager;
     }
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         try {
             if (!argument.isEmpty()) throw new MustBeEmptyException();
             if (collectionManager.getLabWork().size() == 0) {

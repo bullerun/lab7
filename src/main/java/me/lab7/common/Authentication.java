@@ -1,4 +1,4 @@
-package me.lab7.client;
+package me.lab7.common;
 
 import me.lab7.common.exception.MustBeNotEmptyException;
 import me.lab7.common.exception.RangeException;

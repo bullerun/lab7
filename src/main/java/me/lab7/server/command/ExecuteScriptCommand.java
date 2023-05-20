@@ -1,5 +1,6 @@
 package me.lab7.server.command;
 
+
 import me.lab7.common.Response;
 
 /**
@@ -16,7 +17,7 @@ public class ExecuteScriptCommand extends AbstractCommand {
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         return null;
     }
 }

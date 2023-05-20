@@ -1,4 +1,8 @@
-execute_script a.txt
-execute_script a.txt
-execute_script a.txt
-execute_script a.txt
+add
+123
+123
+123
+123
+123
+
+

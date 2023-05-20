@@ -1,18 +1,16 @@
 package me.lab7.common;
 
-import me.lab7.client.Authentication;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RequestWithCommands implements Serializable {
-    private ArrayList<String> commands;
-    private String name;
-    private Authentication client;
-    public RequestWithCommands(ArrayList<String> commands, Authentication authentication){
+    private final ArrayList<String> commands;
+    private final String name;
+    private final Authentication client;
+    public RequestWithCommands(ArrayList<String> commands, Authentication client){
         this.name = "execute_script";
         this.commands = commands;
-        this.client = authentication;
+        this.client = client;
     }
 
     public ArrayList<String> getCommands() {

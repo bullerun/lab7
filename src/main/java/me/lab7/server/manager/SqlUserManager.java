@@ -1,7 +1,7 @@
 package me.lab7.server.manager;
 
-import me.lab7.client.Authentication;
-import me.lab7.common.exception.UserAlreadyExistsException;
+
+import me.lab7.common.Authentication;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -14,11 +14,6 @@ import java.util.logging.Logger;
 public class SqlUserManager {
     private final Connection conn;
     private final Logger logger;
-    private final String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS users(" +
-            "id BIGSERIAL PRIMARY KEY," +
-            "user_name varchar(127) NOT NULL UNIQUE," +
-            "password varchar (127) NOT NULL," +
-            "salt varchar(127))";
 
     public SqlUserManager(Connection connection, Logger logger) {
         this.conn = connection;
@@ -27,11 +22,17 @@ public class SqlUserManager {
 
     public void initUserTable() throws SQLException {
         try (Statement s = conn.createStatement()) {
+            String CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS users(" +
+                    "id BIGSERIAL PRIMARY KEY," +
+                    "user_name varchar(127) NOT NULL UNIQUE," +
+                    "password varchar (127) NOT NULL," +
+                    "salt varchar(127))";
             s.execute(CREATE_TABLE_USER);
         }
     }
 
     public String registration(Authentication client) throws SQLException {
+        logger.info("регистрация пользователя");
         Base64.Encoder encoder = Base64.getEncoder();
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[6];
@@ -42,6 +43,7 @@ public class SqlUserManager {
             s.setString(2, hashPassword(client.getPassword(), saltStr));
             s.setString(3, saltStr);
             s.executeUpdate();
+            logger.info("пользователь успешно добавлен");
             return "пользователь успешно добавлен";
         }
     }
@@ -59,7 +61,7 @@ public class SqlUserManager {
     }
 
 
-    public String login(Authentication client) throws SQLException {
+    public Long login(Authentication client) throws SQLException, NullPointerException {
         try (PreparedStatement s = conn.prepareStatement("SELECT id, password, salt FROM users WHERE user_name = ? LIMIT 1")) {
             s.setString(1, client.getUserName());
             try (ResultSet res = s.executeQuery()) {
@@ -67,7 +69,7 @@ public class SqlUserManager {
                     String realPasswordHashed = res.getString("password");
                     String passwordHashed = hashPassword(client.getPassword(), res.getString("salt"));
                     if (passwordHashed.equals(realPasswordHashed)) {
-                        return String.valueOf(res.getLong("id"));
+                        return res.getLong("id");
                     }
                 }
             }

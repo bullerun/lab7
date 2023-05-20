@@ -1,14 +1,13 @@
 package me.lab7.common;
 
-import me.lab7.client.Authentication;
 import me.lab7.common.data.LabWork;
 
 import java.io.Serializable;
 
 public class RequestWithLabWork implements Serializable {
-    private String command;
-    private LabWork labWork;
-    private Authentication client;
+    private final String command;
+    private final LabWork labWork;
+    private final Authentication client;
 
     public RequestWithLabWork(String command, LabWork labWork, Authentication client) {
         this.command = command;
@@ -24,7 +23,7 @@ public class RequestWithLabWork implements Serializable {
         return labWork;
     }
 
-    public Authentication getClient(){
+    public Authentication getClient() {
         return client;
     }
 }

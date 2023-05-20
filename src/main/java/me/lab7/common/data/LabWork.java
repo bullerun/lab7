@@ -28,10 +28,6 @@ public class LabWork implements Comparable<LabWork>, Serializable {
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
-
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
     public LabWork(Long id) {
         this.id = id;
         this.creationDate = LocalDate.now();
@@ -80,10 +76,6 @@ public class LabWork implements Comparable<LabWork>, Serializable {
         this.name = name;
     }
 
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
     public void setMinimalPoint(long minimalPoint) throws RangeException {
         if (minimalPoint <= MINIMAL_POINT) throw new RangeException();
         this.minimalPoint = minimalPoint;
@@ -114,7 +106,8 @@ public class LabWork implements Comparable<LabWork>, Serializable {
                 " дата создания=" + creationDate +
                 " минимальный балл=" + minimalPoint +
                 " трудность=" + difficulty +
-                " дисциплина=" + discipline;
+                " дисциплина=" + discipline +
+                " owner_ID=" +ownerID;
     }
 
     @Override

@@ -43,7 +43,6 @@ public class MessageHandler {
             return false;
         }
     }
-
     public void sendResponse(Object object) throws IOException {
         socket.getOutputStream().write(Encoder.encode(object).array());
     }
@@ -51,8 +50,7 @@ public class MessageHandler {
     public Object getMessage() throws IOException, ClassNotFoundException {
         ByteArrayInputStream bais = new ByteArrayInputStream(payloadBuffer);
         ObjectInputStream ois = new ObjectInputStream(bais);
-        Object msg = ois.readObject();
-        return msg;
+        return ois.readObject();
     }
 
     public void clearBuffer() {

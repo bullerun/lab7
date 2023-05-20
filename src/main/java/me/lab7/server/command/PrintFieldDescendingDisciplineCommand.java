@@ -1,5 +1,6 @@
 package me.lab7.server.command;
 
+
 import me.lab7.common.data.LabWork;
 import me.lab7.common.exception.MustBeEmptyException;
 import me.lab7.common.exception.MustBeNotEmptyException;
@@ -22,7 +23,7 @@ public class PrintFieldDescendingDisciplineCommand extends AbstractCommand {
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         try {
             if (!argument.isEmpty()) throw new MustBeEmptyException();
             NavigableSet<LabWork> labWork = collectionManager.getLabWork().descendingSet();

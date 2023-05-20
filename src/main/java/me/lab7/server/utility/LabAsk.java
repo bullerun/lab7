@@ -11,16 +11,13 @@ import java.util.Scanner;
 
 /**
  * auxiliary class for working with an instance of the LabWork class
+ *
  * @author Nikita and Vlad
  * @version 0.1
  */
 public class LabAsk {
-    private final Long MINIMAL_POINT = 0L;
-    private final float MINIMAL_X_COORDINATES = -18;
     private Scanner scanner;
-
     private LabWork labWork;
-
 
     public LabAsk(Scanner scanner) {
         this.scanner = scanner;
@@ -35,7 +32,7 @@ public class LabAsk {
         this.labWork = labWork;
     }
 
-    public LabWork addLabWork() throws NoSuchElementException{
+    public LabWork addLabWork() throws NoSuchElementException {
         this.labWork = new LabWork();
         nameAsk();
         coordinatesAsk();
@@ -45,65 +42,48 @@ public class LabAsk {
         return labWork;
     }
 
-    public Scanner getScanner() {
-        return scanner;
-    }
-
-    public void nameAsk() throws NoSuchElementException{
+    public void nameAsk() throws NoSuchElementException {
         while (true) {
             try {
                 labWork.setName(scanner.nextLine().trim());
                 break;
-            } catch (MustBeNotEmptyException e) {
+            } catch (MustBeNotEmptyException ignored) {
             }
         }
     }
 
-    public void coordinatesAsk() throws NoSuchElementException{
+    public void coordinatesAsk() throws NoSuchElementException {
         XAsk(labWork.getCoordinates());
         YAsk(labWork.getCoordinates());
     }
 
-    public void XAsk(Coordinates coordinates) throws NoSuchElementException{
+    public void XAsk(Coordinates coordinates) throws NoSuchElementException {
         while (true) {
             try {
                 coordinates.setX(Float.parseFloat(scanner.nextLine().trim()));
                 break;
-            } catch (NumberFormatException e) {
-
-
-            } catch (RangeException e) {
-
-
-            } catch (IllegalArgumentException e) {
-
-
+            } catch (RangeException | IllegalArgumentException ignored) {
             }
         }
     }
 
-    public void YAsk(Coordinates coordinates) throws NoSuchElementException{
+    public void YAsk(Coordinates coordinates) throws NoSuchElementException {
         while (true) {
             try {
-
                 coordinates.setY(Long.parseLong(scanner.nextLine().trim()));
                 break;
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
     }
 
-    public void minimalPointAsk() throws NoSuchElementException{
+    public void minimalPointAsk() throws NoSuchElementException {
         while (true) {
             try {
 
                 labWork.setMinimalPoint(Long.parseLong(scanner.nextLine().trim()));
                 break;
-            } catch (NumberFormatException e) {
-
-
-            } catch (RangeException e) {
-
-
+            } catch (NumberFormatException | RangeException ignored) {
             }
         }
     }
@@ -114,17 +94,14 @@ public class LabAsk {
 
                 labWork.setDifficulty(scanner.nextLine().trim().toUpperCase());
                 break;
-            } catch (IllegalArgumentException e) {
-
-
+            } catch (IllegalArgumentException ignored) {
             }
         }
     }
 
-    public void disciplineAsk() throws NoSuchElementException{
+    public void disciplineAsk() throws NoSuchElementException {
         while (true) {
             try {
-
                 String line = scanner.nextLine().trim();
                 if (line.equals("") | line.equals("no")) {
                     labWork.setDiscipline(null);
@@ -139,35 +116,27 @@ public class LabAsk {
                     break;
                 }
                 throw new IllegalArgumentException();
-            } catch (IllegalArgumentException e) {
-
-
+            } catch (IllegalArgumentException ignored) {
             }
         }
-
     }
 
-    public void nameDisciplineAsk(Discipline discipline) throws NoSuchElementException{
+    public void nameDisciplineAsk(Discipline discipline) throws NoSuchElementException {
         while (true) {
             try {
-
                 discipline.setName(scanner.nextLine().trim());
                 break;
-            } catch (IllegalArgumentException e) {
-
-
+            } catch (IllegalArgumentException ignored) {
             }
         }
     }
 
-    public void practiceHoursDisciplineAsk(Discipline discipline) throws NoSuchElementException{
+    public void practiceHoursDisciplineAsk(Discipline discipline) throws NoSuchElementException {
         while (true) {
             try {
-
                 discipline.setPracticeHours(Integer.parseInt(scanner.nextLine().trim()));
                 break;
-            } catch (NumberFormatException e) {
-
+            } catch (NumberFormatException ignored) {
             }
         }
     }

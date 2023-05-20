@@ -11,5 +11,5 @@ import me.lab7.common.Response;
 public interface Command {
     String getDescription();
     String getName();
-    Response execute(String argument);
+    Response execute(String argument, Long id);
 }

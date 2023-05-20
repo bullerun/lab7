@@ -1,5 +1,6 @@
 package me.lab7.server.command;
 
+
 import me.lab7.common.exception.MustBeEmptyException;
 import me.lab7.common.Response;
 
@@ -15,7 +16,7 @@ public class ExitCommand extends AbstractCommand {
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long clint) {
         try {
             if (!argument.isEmpty()) throw new MustBeEmptyException();
             System.exit(0);

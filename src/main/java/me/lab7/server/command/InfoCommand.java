@@ -11,7 +11,7 @@ import me.lab7.server.manager.CollectionManager;
  * @version 0.1
  */
 public class InfoCommand extends AbstractCommand {
-    private CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public InfoCommand(CollectionManager collectionManager) {
         super("info", "выводит в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)");
@@ -19,7 +19,7 @@ public class InfoCommand extends AbstractCommand {
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         try {
             if (!argument.isEmpty()) throw new MustBeEmptyException();
             return new Response("Тип " + collectionManager.getLabWork().getClass() + "\n"

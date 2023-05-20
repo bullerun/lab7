@@ -11,14 +11,14 @@ import java.util.ArrayList;
  * @version 0.1
  */
 public class HistoryCommand extends AbstractCommand {
-    private ArrayList<String> lastCommands;
+    private final ArrayList<String> lastCommands;
     public HistoryCommand(ArrayList<String> lastCommands) {
         super("history", "выводит последние 9 команд (без их аргументов)");
         this.lastCommands = lastCommands;
     }
 
     @Override
-    public Response execute(String argument) {
+    public Response execute(String argument, Long client) {
         try {
             StringBuilder s = new StringBuilder();
             if (!argument.isEmpty()) throw new MustBeEmptyException();
