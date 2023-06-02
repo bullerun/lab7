@@ -15,11 +15,6 @@ public final class Client {
             return;
         }
         try {
-            if (args.length < 2) {
-                System.out.println("Неверное количество аргументов, введите хост и порт");
-                return;
-            }
-
             int port = Integer.parseInt(args[1]);
             String host;
             if (args[0].contains("/")) host = args[0].split("/")[1];
@@ -37,8 +32,6 @@ public final class Client {
             System.out.println("Некорректный порт");
         } catch (IOException e) {
             System.out.println("Не удалось запустить приложение");
-        }catch (Exception e){
-            System.out.println("Ошибка запуска программы");
         }
     }
 }

@@ -23,7 +23,7 @@ import java.util.Scanner;
  */
 public class Console {
     private final Sender sender;
-    private static final int TIMEOUT = 10;
+    private static final int TIMEOUT = 5;
     private static final int TIMEOUTMS = 100;
     private static final int MILLIS_IN_SECONDS = 1000;
     private String[] lastCommand;
@@ -45,14 +45,21 @@ public class Console {
 
         if (lastCommand != null) selectCommand(lastCommand);
         String[] command;
-        while (true) {
-            command = (scanner.nextLine().trim() + " ").split(" ", 2);
-            if (!command[0].equals("")) {
-                command[1] = command[1].trim();
-                lastCommand = command;
-                selectCommand(command);
+        try {
+            while (true) {
+                command = (scanner.nextLine().trim() + " ").split(" ", 2);
+                if (!command[0].equals("")) {
+                    command[1] = command[1].trim();
+                    lastCommand = command;
+                    selectCommand(command);
+                    hookResponse();
+                }
             }
+        } catch (IOException e) {
+            System.out.println("Соединение с сервером потеряно");
+            waitForReconnection();
         }
+
     }
 
     public void selectCommand(String[] command) {
@@ -88,11 +95,11 @@ public class Console {
 
     private void hookUpdateResponse() throws IOException {
         ResponseWithLabWork response = (ResponseWithLabWork) waitForResponse();
-        if (response != null && response.getLabWork()!=null) {
+        if (response != null && response.getLabWork() != null) {
             System.out.println(response.getResponse());
             sender.clearInBuffer();
             update(response.getLabWork());
-        }else {
+        } else {
             System.out.println("Такой лабораторной работы нет или у вас нет прав изменять её");
         }
     }
@@ -114,7 +121,7 @@ public class Console {
         if (response != null) {
             System.out.println(response.getResponse());
             sender.clearInBuffer();
-        } else System.out.println("С сервера ничего не пришло");
+        }
     }
 
     private Object waitForResponse() throws IOException {
@@ -129,16 +136,12 @@ public class Console {
                     return received;
                 } else if (received instanceof ResponseWithLabWork) {
                     return received;
-                } else {
-                    System.out.println("Получен неверный ответ с сервера");
-                    break;
                 }
             }
             if (System.currentTimeMillis() >= start + (long) (seconds + 1) * MILLIS_IN_SECONDS) {
                 seconds++;
             }
         }
-        System.out.println("Время ожидания превысило " + TIMEOUT + " секунд.");
         return null;
     }
 

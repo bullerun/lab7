@@ -5,6 +5,8 @@ import me.lab7.common.Response;
 import me.lab7.server.manager.CollectionManager;
 import me.lab7.server.manager.SqlCollectionManager;
 
+import java.sql.SQLException;
+
 /**
  * command that deletes the specified laboratory work
  *
@@ -35,8 +37,10 @@ public class RemoveByIdCommand extends AbstractCommand {
 
         } catch (NumberFormatException e) {
             return new Response("некорректно введено число, число должно содержать только цифры и должно быть меньше или равно " + Long.MAX_VALUE);
-        } catch (Exception e) {
-            return new Response("Произошла какая-то ошибка");
+        } catch (SQLException e) {
+            return new Response("произошла ошибка повторите запрос позже");
+        } catch (Exception e){
+            return new Response("Произошла неизвестная ошибка");
         }
     }
 }

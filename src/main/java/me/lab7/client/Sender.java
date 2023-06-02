@@ -57,23 +57,18 @@ public class Sender {
     }
 
     public boolean checkForMessage() throws IOException {
-        // No need to check anything if payload is already read.
         if (payloadBuffer != null && !payloadBuffer.hasRemaining()) {
             return true;
         }
-
-        // Try to read the entire header containing number of bytes in payload
         socket.read(sizeIntBuffer);
         if (sizeIntBuffer.hasRemaining()) {
             return false;
         }
 
-        // Header is received, generate the payload buffer
         if (payloadBuffer == null) {
             payloadBuffer = ByteBuffer.allocate(sizeIntBuffer.getInt(0));
         }
 
-        // Try to read to payload buffer
         socket.read(payloadBuffer);
         return !payloadBuffer.hasRemaining();
     }
@@ -81,7 +76,6 @@ public class Sender {
     public Object getPayload() throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(payloadBuffer.array());
         ObjectInputStream ois = new ObjectInputStream(bais);
-
         try {
             return ois.readObject();
         } catch (ClassNotFoundException e) {

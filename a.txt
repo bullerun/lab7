@@ -1,4 +1,9 @@
-info
-show
-execute_script g.txt
-info
+add
+123
+123
+123
+123
+123
+
+
+

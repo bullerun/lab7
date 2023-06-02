@@ -44,7 +44,7 @@ public class ScriptReader {
                         return;
                     }
                 } else {
-                    commands.add(command[0] + command[1]);
+                    commands.add(command[0] +" "+ command[1]);
                 }
             } while (scriptScanner.hasNextLine());
         } catch (NoSuchElementException e) {

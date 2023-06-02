@@ -1,13 +1,12 @@
 package me.lab7.server;
 
-import me.lab7.common.*;
-import me.lab7.common.data.LabWork;
+
 import me.lab7.server.manager.CollectionManager;
 import me.lab7.server.manager.CommandManager;
 import me.lab7.server.manager.SqlCollectionManager;
 import me.lab7.server.manager.SqlUserManager;
 import me.lab7.server.utility.LabAsk;
-import org.postgresql.util.PSQLException;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.FileHandler;
@@ -27,13 +25,14 @@ public class ServerInstance {
     private final Logger logger;
     private static final int TIMEOUTWRITE = 100;
     private static final int SOCKET_TIMEOUT = 10;
-    private final ExecutorService selectorCommand = Executors.newCachedThreadPool();
     private final int port;
     private CommandManager commandManager;
     private final Scanner scanner;
     private SqlCollectionManager sqlCollectionManager;
     private SqlUserManager sqlUserManager;
+    private final ExecutorService selectorCommand = Executors.newCachedThreadPool();
     private final CollectionManager collectionManager;
+
 
     public ServerInstance(int port, CollectionManager collectionManager, Scanner scanner, String dbUser, String dbPassword) {
         this.port = port;
@@ -55,6 +54,16 @@ public class ServerInstance {
             System.out.println("ошибка подключения к базе данных");
             System.exit(1);
         }
+    }
+
+    private void start() {
+        try {
+            this.sqlUserManager.initUserTable();
+            this.sqlCollectionManager.initTableOrExecuteLabWorks();
+        } catch (SQLException e) {
+            logger.severe("не удалось прочитать базу данных" + e);
+        }
+        collectionManager.initializeData(sqlCollectionManager.getCollection());
     }
 
     public void run() throws IOException {
@@ -82,20 +91,10 @@ public class ServerInstance {
         }
     }
 
-    private void start() {
-        try {
-            this.sqlUserManager.initUserTable();
-            this.sqlCollectionManager.initTableOrExecuteLabWorks();
-        } catch (SQLException e) {
-            logger.severe("не удалось прочитать базу данных" + e);
-        }
-        collectionManager.initializeData(sqlCollectionManager.getCollection());
-    }
-
     public void handleRequests(MessageHandler client1) {
         new Thread(() -> {
-            Client client = new Client(client1);
-            client.handleRequests();
+            ClientInServer clientInServer = new ClientInServer(client1, logger, new SelectorResponse(sqlUserManager, logger, commandManager), selectorCommand);
+            clientInServer.handleRequests();
         }).start();
     }
 
@@ -110,146 +109,4 @@ public class ServerInstance {
         }
         return false;
     }
-
-    private class Client {
-        private final MessageHandler client;
-        private boolean running;
-
-        Client(MessageHandler socket) {
-            this.client = socket;
-            running = true;
-        }
-
-        void stop() {
-            running = false;
-            logger.info("Client  " + client.getSocket().getRemoteSocketAddress() + " has been disconnected");
-            try {
-                client.getSocket().close();
-            } catch (IOException e) {
-                logger.severe("Failed to close connection with client " + client.getSocket().getRemoteSocketAddress() + e);
-            }
-        }
-
-        public void handleRequests() {
-            while (running) {
-                try {
-                    if (client.checkForMessage()) {
-                        Object message = client.getMessage();
-                        if (message instanceof Request) {
-                            logger.info("началась обработка команды");
-                            Response response = selectorCommand.submit(() -> {
-                                return selectCommand(((Request) message).getCommands(), ((Request) message).getClient());
-                            }).get();
-                            logger.info("закончилась обработка команды обработка команды");
-                            sendResponse(response);
-                        } else if (message instanceof RequestWithLabWork) {
-                            logger.info("добавление лабораторной работы");
-                            Response response = selectorCommand.submit(() -> {
-                                return selectCommand(((RequestWithLabWork) message).getCommands(), ((RequestWithLabWork) message).getLabWork(), ((RequestWithLabWork) message).getClient());
-                            }).get();
-                            logger.info(response.getResponse());
-                            sendResponse(response);
-                        } else if (message instanceof RequestWithCommands) {
-                            logger.info("началась обработка скрипта");
-                            Response response = selectorCommand.submit(() -> {
-                                return selectWithCommands(((RequestWithCommands) message).getName(), ((RequestWithCommands) message).getCommands(), ((RequestWithCommands) message).getClient());
-                            }).get();
-                            logger.info("началась обработка скрипта");
-                            sendResponse(response);
-                        } else if (message instanceof RequestWithClient) {
-                            logger.info("подключение нового клиента");
-                            ResponseWithBooleanType responseWithBooleanType = selectorCommand.submit(() -> {
-                                return selectAuthCommand(((RequestWithClient) message).getCommand(), ((RequestWithClient) message).getClient());
-                            }).get();
-                            sendResponse(responseWithBooleanType);
-                        } else if (message instanceof RequestUpdate) {
-                            logger.info("началась обработка команды");
-                            ResponseWithLabWork response = selectorCommand.submit(() -> {
-                                return update(((RequestUpdate) message).getCommands(), ((RequestUpdate) message).getClient());
-                            }).get();
-                            logger.info("закончилась обработка команды обработка команды");
-                            sendResponse(response);
-                        }
-                        client.clearBuffer();
-                    }
-                } catch (IOException | InterruptedException | ExecutionException | ClassNotFoundException e) {
-                    stop();
-                }
-            }
-
-        }
-
-        private ResponseWithLabWork update(String[] commands, Authentication client) {
-            try {
-                return commandManager.updateCommand(commands, sqlUserManager.login(client));
-            } catch (SQLException e) {
-                return new ResponseWithLabWork("не удалось выполнить команду update", null);
-            }
-        }
-
-
-    private void sendResponse(Object response) {
-        new Thread(() -> {
-            try {
-                client.sendResponse(response);
-                logger.info("ответ клиенту отправлен");
-            } catch (IOException e) {
-                logger.info("ответ клиенту не удалось отправить");
-                stop();
-            }
-        }).start();
-    }
-
-    private ResponseWithBooleanType selectAuthCommand(String command, Authentication client) {
-        if (command.equals("reg")) {
-            try {
-                return new ResponseWithBooleanType(sqlUserManager.registration(client), true);
-            } catch (PSQLException e) {
-                logger.info(client.getUserName() + e);
-                return new ResponseWithBooleanType("Пользователь с таким именем уже существует", false);
-            } catch (SQLException e) {
-                logger.info("sql недоступна " + e);
-                return new ResponseWithBooleanType("не удалось получить данные с сервера", false);
-            }
-        }
-        if (command.equals("login")) {
-            try {
-                if (sqlUserManager.login(client) != null)
-                    return new ResponseWithBooleanType("пользователь авторизован", true);
-            } catch (PSQLException e) {
-                logger.info(client.getUserName() + e);
-                return new ResponseWithBooleanType("Неверно веден логин или пароль", false);
-            } catch (SQLException e) {
-                logger.info("sql недоступна " + e);
-                return new ResponseWithBooleanType("на сервере произошла неизвестная ошибка попытайтесь подключиться позже", false);
-            }
-        }
-        return new ResponseWithBooleanType("пользователь не авторизован", false);
-    }
-
-    public Response selectCommand(String[] command, Authentication client) {
-        try {
-            return commandManager.commandSelection(command, sqlUserManager.login(client));
-        } catch (SQLException e) {
-            return new Response("не удалось выполнить команду " + command[0] + " нехватка прав или лабораторная работа не обнаружена");
-        }
-    }
-
-    public Response selectCommand(String command, LabWork labWork, Authentication client) {
-        try {
-            return commandManager.commandSelection(command, labWork, sqlUserManager.login(client));
-        } catch (SQLException e) {
-            return new Response("не удалось выполнить команду " + command + " нехватка прав или лабораторная работа не обнаружена");
-        }
-    }
-
-    public Response selectWithCommands(String command, ArrayList<String> commands, Authentication client) {
-        try {
-            return commandManager.commandSelectionFromScript(command, commands, sqlUserManager.login(client));
-        } catch (SQLException e) {
-            return new Response("не удалось выполнить команду " + command + " нехватка прав или лабораторная работа не обнаружена");
-        }
-    }
-
-}
 }

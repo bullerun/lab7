@@ -5,28 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efce9294-3f40-489b-b6db-4185b6fb99f0" name="Changes" comment="вроде сделано">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/RequestUpdate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/ResponseWithLabWork.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/UpdateByIdCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/UpdateByIdCommandWithPerson.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/ClientInServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/SelectorResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.txt" beforeDir="false" afterPath="$PROJECT_DIR$/a.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/g.txt" beforeDir="false" afterPath="$PROJECT_DIR$/g.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/LabAsk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/LabAsk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/ScriptReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/ScriptReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/client/Sender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/client/Sender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Coordinates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/Coordinates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/LabWork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/common/data/LabWork.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AbstractCommandWithLabWork.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AbstractCommandWithLabWork.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommandWithPerson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/AddCommandWithPerson.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveByIdCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveByIdCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveGreaterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveGreaterCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveLowerCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/command/RemoveLowerCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CommandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CommandManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/lab7/server/utility/LabAsk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/lab7/server/utility/LabAsk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +82,7 @@
     "WebServerToolWindowFactoryState": "false",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/nikitosek/IdeaProjects/lab6Final",
+    "last_opened_file_path": "C:/Users/nikitosek/IdeaProjects/Lab777",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -95,6 +90,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -103,7 +99,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Gradle.lab7 [fatJar2]">
+  <component name="RunManager" selected="Application.Server">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.lab7.client.Client" />
       <module name="lab7.main" />
@@ -184,9 +180,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Server" />
         <item itemvalue="Gradle.lab7 [fatJar2]" />
         <item itemvalue="Gradle.lab7 [fatJar1]" />
-        <item itemvalue="Application.Server" />
         <item itemvalue="Application.Client" />
       </list>
     </recent_temporary>
@@ -202,7 +198,15 @@
       <workItem from="1684185899294" duration="3000" />
       <workItem from="1684197394601" duration="73624000" />
       <workItem from="1684501522354" duration="2524000" />
-      <workItem from="1684504778709" duration="53032000" />
+      <workItem from="1684504778709" duration="61445000" />
+      <workItem from="1684660065477" duration="8000" />
+      <workItem from="1684857082393" duration="36000" />
+      <workItem from="1685532393851" duration="191000" />
+      <workItem from="1685533108022" duration="970000" />
+      <workItem from="1685534093884" duration="2722000" />
+      <workItem from="1685560411687" duration="3420000" />
+      <workItem from="1685563858739" duration="10808000" />
+      <workItem from="1685667932713" duration="8950000" />
     </task>
     <task id="LOCAL-00001" summary="create and read db">
       <created>1684320265469</created>
@@ -239,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684546029889</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="вроде сделано">
+      <created>1684568783540</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1684568783540</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,33 +278,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java</url>
-          <line>133</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/ServerInstance.java</url>
-          <line>156</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java</url>
-          <line>68</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/client/Console.java</url>
-          <line>105</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CollectionManager.java</url>
-          <line>79</line>
+          <line>83</line>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -302,15 +288,35 @@
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/CommandManager.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java</url>
-          <line>185</line>
-          <option name="timeStamp" value="42" />
+          <line>89</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/manager/SqlCollectionManager.java</url>
+          <line>204</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/me/lab7/server/ClientInServer.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="GradleRunConfiguration">
+        <watch expression="conn" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/lab7$Server.ic" NAME="Server Coverage Results" MODIFIED="1684522327675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/lab7$Server.ic" NAME="Server Coverage Results" MODIFIED="1685563637485" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>me.lab7.server.*</FILTER>
     </SUITE>
   </component>

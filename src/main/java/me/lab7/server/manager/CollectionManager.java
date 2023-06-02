@@ -48,18 +48,22 @@ public class CollectionManager {
 
     }
 
-    public boolean removeGreater(Long id, Long client) {
+    public int removeGreater(Long id, Long client) {
         lock.writeLock().lock();
-        var did = labWorks.removeIf(i -> i.getId() > id && i.getOwnerID().equals(client));
+        var startSize = labWorks.size();
+        labWorks.removeIf(i -> i.getId() > id && i.getOwnerID().equals(client));
+        var count =  startSize -labWorks.size();
         lock.writeLock().unlock();
-        return did;
+        return count;
     }
 
-    public boolean removeLower(Long id, Long client) {
+    public int removeLower(Long id, Long client) {
         lock.writeLock().lock();
-        var did = labWorks.removeIf(i -> i.getId() < id && i.getOwnerID().equals(client));
+        var startSize = labWorks.size();
+       labWorks.removeIf(i -> i.getId() < id && i.getOwnerID().equals(client));
+        var count =  startSize -labWorks.size();
         lock.writeLock().unlock();
-        return did;
+        return count;
     }
 
     public LocalDate getCreatingCollection() {
