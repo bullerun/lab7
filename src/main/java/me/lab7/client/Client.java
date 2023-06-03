@@ -26,8 +26,6 @@ public final class Client {
             Console console = new Console(scanner, addr, labAsk, scriptReader);
             ValidationChecker validationChecker = new ValidationChecker();
             console.run();
-
-
         } catch (NumberFormatException e) {
             System.out.println("Некорректный порт");
         } catch (IOException e) {

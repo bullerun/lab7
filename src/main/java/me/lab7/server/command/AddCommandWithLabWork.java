@@ -6,11 +6,11 @@ import me.lab7.common.Response;
 import me.lab7.server.manager.CollectionManager;
 import me.lab7.server.manager.SqlCollectionManager;
 
-public class AddCommandWithPerson extends AbstractCommandWithLabWork {
+public class AddCommandWithLabWork extends AbstractCommandWithLabWork {
     private final CollectionManager collectionManager;
     private final SqlCollectionManager sqlCollectionManager;
 
-    public AddCommandWithPerson(CollectionManager collectionManager, SqlCollectionManager sqlCollectionManager) {
+    public AddCommandWithLabWork(CollectionManager collectionManager, SqlCollectionManager sqlCollectionManager) {
         super("add");
         this.collectionManager = collectionManager;
         this.sqlCollectionManager = sqlCollectionManager;

@@ -43,6 +43,7 @@ public class SqlUserManager {
             s.setString(2, hashPassword(client.getPassword(), saltStr));
             s.setString(3, saltStr);
             s.executeUpdate();
+            conn.commit();
             logger.info("пользователь успешно добавлен");
             return "пользователь успешно добавлен";
         }

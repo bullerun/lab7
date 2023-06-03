@@ -28,18 +28,18 @@ public class RemoveByIdCommand extends AbstractCommand {
         try {
             if (argument.isEmpty()) throw new MustBeNotEmptyException();
             sqlCollectionManager.removeByID(Long.parseLong(argument.trim()), client);
-            if(collectionManager.removeByID(Long.parseLong(argument.trim()), client)){
+            if (collectionManager.removeByID(Long.parseLong(argument.trim()), client)) {
                 return new Response("Лабораторная работа c таким id удалена");
-            };
-            return new Response("Неверные права доступа");
+            }
+            return new Response("Удаление не было осуществлено, проверьте наличие данной лабораторной и права на эту лабораторную работу");
         } catch (MustBeNotEmptyException e) {
             return new Response("Id не введен");
 
         } catch (NumberFormatException e) {
             return new Response("некорректно введено число, число должно содержать только цифры и должно быть меньше или равно " + Long.MAX_VALUE);
         } catch (SQLException e) {
-            return new Response("произошла ошибка повторите запрос позже");
-        } catch (Exception e){
+            return new Response("такой лабораторной нет");
+        } catch (Exception e) {
             return new Response("Произошла неизвестная ошибка");
         }
     }

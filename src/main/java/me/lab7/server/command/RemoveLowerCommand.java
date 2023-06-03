@@ -31,7 +31,7 @@ public class RemoveLowerCommand extends AbstractCommand {
             if (count >0) {
                 return new Response("при вызове команды remove_lower удалено " + count + " лабораторных работ");
             }
-            return new Response("Неверные права доступа");
+            return new Response("Удаление не было осуществлено, проверьте наличие лабораторных удовлетворяющих условию и права на эти лабораторные работы");
         } catch (MustBeNotEmptyException e) {
             return new Response("Id не введен");
 

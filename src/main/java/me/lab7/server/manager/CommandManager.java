@@ -45,8 +45,8 @@ public class CommandManager {
         commandsForHelpCommand.add(new RemoveLowerCommand(collectionManager, sqlCollectionManager));
 
         commandsForHelpCommand.add(new HelpCommand(commandsForHelpCommand));
-        commandsWithLabWork.put("add", new AddCommandWithPerson(collectionManager, sqlCollectionManager));
-        commandsWithLabWork.put("update", new UpdateByIdCommandWithPerson(collectionManager, sqlCollectionManager));
+        commandsWithLabWork.put("add", new AddCommandWithLabWork(collectionManager, sqlCollectionManager));
+        commandsWithLabWork.put("update", new UpdateByIdCommandWithLabWork(collectionManager, sqlCollectionManager));
         commands.put("help", new HelpCommand(commandsForHelpCommand));
         commands.put("info", new InfoCommand(collectionManager));
         commands.put("history", new HistoryCommand(lastCommands));

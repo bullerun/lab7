@@ -23,7 +23,7 @@ import java.util.Scanner;
  */
 public class Console {
     private final Sender sender;
-    private static final int TIMEOUT = 5;
+    private static final int TIMEOUT = 10;
     private static final int TIMEOUTMS = 100;
     private static final int MILLIS_IN_SECONDS = 1000;
     private String[] lastCommand;
@@ -42,24 +42,16 @@ public class Console {
     }
 
     public void consoleReader() {
-
         if (lastCommand != null) selectCommand(lastCommand);
         String[] command;
-        try {
             while (true) {
                 command = (scanner.nextLine().trim() + " ").split(" ", 2);
                 if (!command[0].equals("")) {
                     command[1] = command[1].trim();
                     lastCommand = command;
                     selectCommand(command);
-                    hookResponse();
                 }
             }
-        } catch (IOException e) {
-            System.out.println("Соединение с сервером потеряно");
-            waitForReconnection();
-        }
-
     }
 
     public void selectCommand(String[] command) {

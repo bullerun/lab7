@@ -32,6 +32,7 @@ public class ServerInstance {
     private SqlUserManager sqlUserManager;
     private final ExecutorService selectorCommand = Executors.newCachedThreadPool();
     private final CollectionManager collectionManager;
+    private SelectorResponse selectorResponse;
 
 
     public ServerInstance(int port, CollectionManager collectionManager, Scanner scanner, String dbUser, String dbPassword) {
@@ -48,6 +49,7 @@ public class ServerInstance {
             fh = new FileHandler(lf.getAbsolutePath(), true);
             logger.addHandler(fh);
             this.commandManager = new CommandManager(collectionManager, new LabAsk(scanner), sqlCollectionManager);
+            this.selectorResponse = new SelectorResponse(sqlUserManager, logger, commandManager);
         } catch (IOException e) {
             System.out.println(e.getMessage() + "логер не записывает данные в файл");
         } catch (SQLException e) {
@@ -93,7 +95,7 @@ public class ServerInstance {
 
     public void handleRequests(MessageHandler client1) {
         new Thread(() -> {
-            ClientInServer clientInServer = new ClientInServer(client1, logger, new SelectorResponse(sqlUserManager, logger, commandManager), selectorCommand);
+            ClientInServer clientInServer = new ClientInServer(client1, logger, selectorResponse, selectorCommand);
             clientInServer.handleRequests();
         }).start();
     }

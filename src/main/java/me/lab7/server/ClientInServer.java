@@ -23,11 +23,11 @@ public class ClientInServer {
 
     void stop() {
         running = false;
-        logger.info("Client  " + client.getSocket().getRemoteSocketAddress() + " has been disconnected");
+        logger.info("клиент  " + client.getSocket().getRemoteSocketAddress() + " был отключен");
         try {
             client.getSocket().close();
         } catch (IOException e) {
-            logger.severe("Failed to close connection with client " + client.getSocket().getRemoteSocketAddress() + e);
+            logger.severe("не получилось разорвать соединение с клиентом " + client.getSocket().getRemoteSocketAddress() + e);
         }
     }
 
@@ -66,8 +66,6 @@ public class ClientInServer {
                         });
                         logger.info("закончилась обработка команды");
                     }
-
-                    System.out.println(2);
                     client.clearBuffer();
                 }
             } catch (IOException | ClassNotFoundException e) {
